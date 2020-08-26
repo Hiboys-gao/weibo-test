@@ -1,10 +1,29 @@
 {% extends "base.html" %}
 
+{% block head %}
+
+{% include "bar.html" %}
+
+{% endblock %}
 
 {% block content %}
-<h1>首面</h1>
-<hr>
-<a href="/user/login"><h1>登录</h1></a>
-<a href="/user/register"><h1>注册</h1></a>
+<h1>微博信息</h1>
+<pre><a href="/weibo/modify?wb_id={{ info.id }}" style="border: 1px solid gold;">修改微博</a></pre>
+<pre><a href="/weibo/delete?wb_id={{ info.id }}" style="border: 1px solid gold;">删除微博</a></pre>
+<hr />
+<table border="1px" rules="all">
+    <tr>
+        <td>标题：{{ info.title }}</td>
+    </tr>
+    <tr>
+        <td>
+            内容：
+            <p><textarea cols="80" rows="10">{{ info.content }}</textarea></p>
+        </td>
+    </tr>
+    <tr>
+        <td><span style="float: right">{{ info.datetime }}</span></td>
+    </tr>
+</table>
 
 {% endblock %}

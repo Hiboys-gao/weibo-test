@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 
+{% block head %}
+<p>鹤冲天·黄金榜上</p>
+<p>才子词人，自是白衣卿相。</p>
+<p>青春都一饷。忍把浮名，换了浅斟低唱。</p>
+{% endblock %}
 
 {% block content %}
 <h1>登录页面</h1>
 <hr>
+
+<form action="/user/login" method="post" enctype="multipart/form-data">
+    <span>账号：</span><input type="text" name="username">
+    <br>
+    <span>密码：</span><input type="password" name="password">
+    <input type="submit" value="登录">
+</form>
 
 
 {% endblock %}

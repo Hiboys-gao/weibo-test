@@ -1,10 +1,35 @@
 {% extends "base.html" %}
 
+{% block head %}
+
+{% include "bar.html" %}
+
+{% endblock %}
 
 {% block content %}
-<h1>首面</h1>
+<h1>发表微博</h1>
 <hr>
-<a href="/user/login"><h1>登录</h1></a>
-<a href="/user/register"><h1>注册</h1></a>
+<form action="/weibo/publish" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td width="50px">标题：</td>
+            <td><input type="text" name="title" style="float: left;"></td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                内容：<br>
+                <textarea name="content" cols="60" rows="10" style="font-size: 4px;float: left">
+
+                </textarea>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                <input type="submit" value="发表">
+            </td>
+        </tr>
+    </table>
+</form>
+
 
 {% endblock %}

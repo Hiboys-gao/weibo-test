@@ -1,10 +1,33 @@
 {% extends "base.html" %}
 
+{% block head %}
+
+{% include "bar.html" %}
+
+{% endblock %}
 
 {% block content %}
-<h1>首面</h1>
+<h1>用户信息</h1>
 <hr>
-<a href="/user/login"><h1>登录</h1></a>
-<a href="/user/register"><h1>注册</h1></a>
+<table>
+        <tr>
+            <td>账号：</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>性别：</td>
+            <td>
+                {{ user.gender }}
+            </td>
+        </tr>
+        <tr>
+            <td>所在城市:</td>
+            <td>{{ user.city }}</td>
+        </tr>
+        <tr>
+            <td>电话号码:</td>
+            <td>{{ user.tel }}</td>
+        </tr>
+    </table>
 
 {% endblock %}

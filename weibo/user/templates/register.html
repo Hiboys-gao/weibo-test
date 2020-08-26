@@ -1,9 +1,48 @@
 {% extends "base.html" %}
 
+{% block head %}
+<p>鹤冲天·黄金榜上</p>
+<p>才子词人，自是白衣卿相。</p>
+<p>青春都一饷。忍把浮名，换了浅斟低唱。</p>
+{% endblock %}
 
 {% block content %}
 <h1>注册页面</h1>
 <hr>
+
+<form action="/user/register" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>账号：</td>
+            <td><input type="text" name="username"></td>
+        </tr>
+        <tr>
+            <td>密码：</td>
+            <td><input type="password" name="password"></td>
+        </tr>
+        <tr>
+            <td>性别：</td>
+            <td>
+                男<input type="radio" name="gender" value="男">
+                女<input type="radio" name="gender" value="女">
+                保密<input type="radio" name="gender" value="保密">
+            </td>
+        </tr>
+        <tr>
+            <td>所在城市:</td>
+            <td><input type="text" name="city"></td>
+        </tr>
+        <tr>
+            <td>电话号码:</td>
+            <td><input type="tel" name="tel"></td>
+        </tr>
+        <tr>
+            <td>上传头像:</td>
+            <td><input type="file" name="filename"></td>
+        </tr>
+    </table>
+    <input type="submit" value="注册">
+</form>
 
 
 {% endblock %}

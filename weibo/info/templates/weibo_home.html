@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% include "bar.html" %}
+
+{% endblock %}
+
+{% block content %}
+<h1>微博首页</h1>
+<hr>
+<ol>
+
+{% for info in infos %}
+    <li class="bg-primary;">
+        <a href="/weibo/weibo_info?wb_id={{ info.id }}">{{ info.title }}</a>
+        <span style="float: right">{{ info.datetime }}</span>
+    </li>
+{% endfor %}
+
+
+</ol>
+{% if count_li %}
+    {% for x in count_li %}
+    <a href="/weibo/home?page={{ x+1 }}">第{{ x+1 }}页</a>
+    {% endfor %}
+{% else %}
+    <a href="/weibo/home">第1页</a>
+
+{% endif %}
+
+{% endblock %}
