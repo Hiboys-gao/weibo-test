@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8"/>
+    <title>迷你简陋小微博</title>
+    <meta name="viewport" content="width=device-width,
+    initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--	<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <link rel="stylesheet" href="/static/css/bootstrap.min.css">-->
+	<link rel="stylesheet" href="/static/css/style.css">
+	<style>
+		/*// Class*/
+		.visible {
+			visibility: visible;
+			height: 100px;
+			width: 100px;
+			background: #00b4ff;
+		}
+		.invisible {
+			visibility: hidden;
+			height: 100px;
+			width: 100px;
+			background: #00b400;
+		}
+
+		/*// Usage as a mixin*/
+		/*// Warning: The `invisible()` mixin has been deprecated as of v4.3.0. It will be removed entirely in v5.*/
+		.element {
+		  @include invisible(visible);
+		}
+		.element {
+		  @include invisible(hidden);
+		}
+	</style>
+
+</head>
+
+<body>
+<!-- 导航栏 -->
+<!--<svg class="bi" width="32" height="32" fill="currentColor">-->
+<!--  <use xlink:href="bootstrap-icons.svg#heart-fill"/>-->
+<!--</svg>-->
+
+<!--<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-hand-thumbs-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">-->
+<!--</svg>-->
+<i class="glyphicon glyphicon-home"></i>
+
+    <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>

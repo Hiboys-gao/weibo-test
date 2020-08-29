@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+{% for user_dic in fo_users_li %}
+<div class="alert alert-primary" role="alert">
+<!--    个人信息-->
+    <div class="alert">
+        <a href="/user/user_info?w_uid={{ user_dic.user.id }}" class="text-primary align-self-center" style="text-decoration: none;">
+            <h4 class="alert-heading align-self-center">
+                <img src="{{ user_dic.user.filename }}" alt="无头像" height="50px" class="rounded-circle">
+                {{ user_dic.user.username }}
+            </h4>
+        </a>
+    </div>
+    <div class="alert alert-info" role="alert">
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-primary">性别：</label>
+            <div class="col-sm-6">
+                {% if user_dic.user.gender == '男' %}
+                <label class="col-sm-6 col-form-label text-info" style="padding-left: 0;">小哥哥</label>
+                {% elif user_dic.user.gender == '女' %}
+                <label class="col-sm-6 col-form-label text-info" style="padding-left: 0;">小姐姐</label>
+                {% else %}
+                <label class="col-sm-6 col-form-label text-info" style="padding-left: 0;">保密</label>
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-primary">所在城市:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-6 col-form-label text-info" style="padding-left: 0;">{{ user_dic.user.city }}</label>
+            </div>
+        </div>
+    </div>
+
+<!--    微博动态————前两条-->
+    {% for weibo in user_dic.weibo %}
+    <div class="alert alert-primary" role="alert">
+        <p class="mb-0">
+        {{ weibo.content | replace('\n', '<br>') | safe }}
+            <br>
+        <span style="float: right">
+            <a href="/weibo/weibo_info?wb_id={{ weibo.id }}" class="text-primary align-self-center" style="text-decoration: none;">
+            {{ weibo.datetime }}
+            </a>
+        </span>
+            <br>
+        </p>
+    </div>
+    {% endfor%}
+</div>
+{% endfor%}
+{% endblock %}
+
+{% block sidebar %}
+<h3 class="text-warning">风云排行榜</h3>
+{% for big in bigs %}
+    <div class="alert alert-primary" role="alert">
+    <!--    个人信息-->
+        <div class="alert">
+            <a href="/user/user_info?w_uid={{ big.id }}" class="text-primary align-self-center" style="text-decoration: none;">
+                <h4 class="alert-heading align-self-center">
+                    <img src="{{ big.filename }}" alt="无头像" height="50px" class="rounded-circle">
+                    {{ big.username }}
+                </h4>
+            </a>
+            <span class="text-danger " style="font-size: small;">{{ big.n_fans }}</span>
+          <img src="/static/img/icons/heart-fill.svg" width="20" style="margin-right: 20px;">
+        </div>
+        <div class="alert alert-info" role="alert">
+            <div class="form-group row">
+                <label class="text-primary col-sm-4">性别：</label>
+                <div class="col-sm-6">
+                    {% if big.gender == '男' %}
+                    <label class="text-info" style="padding-left: 0;">小哥哥</label>
+                    {% elif big.gender == '女' %}
+                    <label class="text-info" style="padding-left: 0;">小姐姐</label>
+                    {% else %}
+                    <label class="text-info" style="padding-left: 0;">保密</label>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="text-primary col-sm-4">城市:</label>
+                <div class="col-sm-6">
+                    <label class="text-info" style="padding-left: 0;">{{ big.city }}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor%}
+
+{% endblock %}

@@ -22,8 +22,16 @@ app.register_blueprint(weibo_bp)
 
 @app.route('/')
 def home():
-    return redirect('/user/home')
+    return redirect('/weibo/home')
 
+@manager.command
+def create_test_wb():
+    from user.models import User
+    from info.models import Weibo
+
+    users=User.fake_users(20)
+    uids=[u.id for u in users]
+    Weibo.fake_weibos(uids,500)
 
 if __name__ == '__main__':
     manager.run()

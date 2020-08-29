@@ -8,8 +8,9 @@ body{
 	margin: 0px;
 	padding: 0px;
 	font-family: 'Ubuntu', sans-serif;
-	background: url(../images/bg-1.png) center;
+	background: url(/static/img/bg-1.png) center;
 	background-size: cover;
+	background-repeat: no-repeat;
 }
 html {  
 	-ms-overflow-style: scrollbar; 

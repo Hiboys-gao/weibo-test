@@ -1,48 +1,76 @@
 {% extends "base.html" %}
 
-{% block head %}
-<p>鹤冲天·黄金榜上</p>
-<p>才子词人，自是白衣卿相。</p>
-<p>青春都一饷。忍把浮名，换了浅斟低唱。</p>
-{% endblock %}
 
 {% block content %}
-<h1>注册页面</h1>
-<hr>
 
-<form action="/user/register" method="post" enctype="multipart/form-data">
-    <table>
-        <tr>
-            <td>账号：</td>
-            <td><input type="text" name="username"></td>
-        </tr>
-        <tr>
-            <td>密码：</td>
-            <td><input type="password" name="password"></td>
-        </tr>
-        <tr>
-            <td>性别：</td>
-            <td>
-                男<input type="radio" name="gender" value="男">
-                女<input type="radio" name="gender" value="女">
-                保密<input type="radio" name="gender" value="保密">
-            </td>
-        </tr>
-        <tr>
-            <td>所在城市:</td>
-            <td><input type="text" name="city"></td>
-        </tr>
-        <tr>
-            <td>电话号码:</td>
-            <td><input type="tel" name="tel"></td>
-        </tr>
-        <tr>
-            <td>上传头像:</td>
-            <td><input type="file" name="filename"></td>
-        </tr>
-    </table>
-    <input type="submit" value="注册">
+{% if err %}
+<div class="alert alert-danger" role="alert">
+  <p class="mb-0">{{ err }}</p>
+</div>
+{% endif %}
+
+<form action="/user/register" method="POST" enctype="multipart/form-data">
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">昵称</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" name="username" />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">密码</label>
+    <div class="col-sm-5">
+      <input type="password" class="form-control" name="password" />
+    </div>
+  </div>
+
+  <fieldset class="form-group">
+    <div class="row">
+      <legend class="col-form-label col-sm-2 pt-0">性别</legend>
+      <div class="col-sm-5">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gender" value="男" />
+          <label class="form-check-label">小哥哥</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gender" value="女" />
+          <label class="form-check-label">小姐姐</label>
+        </div>
+        <div class="form-check disabled">
+          <input class="form-check-input" type="radio" name="gender" value="保密" checked />
+          <label class="form-check-label">保密</label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">城市</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" name="city" />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">电话号码</label>
+    <div class="col-sm-5">
+      <input type="tel" class="form-control" name="tel" />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">头像</label>
+    <div class="col-sm-5">
+      <input type="file" class="form-control-file" name="filename" />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <button class="btn btn-success">点击注册</button>
+    </div>
+  </div>
 </form>
-
 
 {% endblock %}

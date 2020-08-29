@@ -1,33 +1,55 @@
 {% extends "base.html" %}
 
-{% block head %}
+{% block content %}
+<img src="{{ user.filename }}" width="300px" class="rounded-circle img-thumbnail" style="margin-top: 10px">
+<hr>
+<div class="alert alert-info" role="alert">
+    <h3 class="text-warning">{{ user.username }}</h3>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label text-primary">性别：</label>
+        <div class="col-sm-5">
+            {% if user.gender == '男' %}
+            <label class="col-sm-5 col-form-label text-info">小哥哥</label>
+            {% elif user.gender == '女' %}
+            <label class="col-sm-5 col-form-label text-info">小姐姐</label>
+            {% else %}
+            <label class="col-sm-5 col-form-label text-info">保密</label>
+            {% endif %}
+        </div>
+    </div>
 
-{% include "bar.html" %}
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label text-primary">所在城市:</label>
+        <div class="col-sm-5">
+            <label class="col-sm-4 col-form-label text-info">{{ user.city }}</label>
+        </div>
+    </div>
 
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label text-primary">联系方式:</label>
+        <div class="col-sm-5">
+            <label class="col-sm-2 col-form-label text-info">{{ user.tel }}</label>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
-{% block content %}
-<h1>用户信息</h1>
-<hr>
-<table>
-        <tr>
-            <td>账号：</td>
-            <td>{{ user.username }}</td>
-        </tr>
-        <tr>
-            <td>性别：</td>
-            <td>
-                {{ user.gender }}
-            </td>
-        </tr>
-        <tr>
-            <td>所在城市:</td>
-            <td>{{ user.city }}</td>
-        </tr>
-        <tr>
-            <td>电话号码:</td>
-            <td>{{ user.tel }}</td>
-        </tr>
-    </table>
-
+{% block sidebar %}
+    <h3>微博动态</h3>
+    {% for wb in wb_li %}
+    <div class="alert alert-primary" role="alert">
+        <div class="row col-12">
+            <a class="text-danger" href="/weibo/weibo_info?wb_id={{ wb.id }}">
+                <span class="text-secondary">{{ wb.datetime }}</span>
+            </a>
+        </div>
+        <p class="mb-0">
+        {{ wb.content | replace('\n', '<br>') | safe }}
+        </p>
+        <hr>
+         <a class="text-info" href="/weibo/modify?wb_id={{ wb.id }}">修改微博</a>
+    &nbsp;&nbsp;&nbsp;
+        <a class="text-danger" href="/weibo/delete?wb_id={{ wb.id }}">删除微博</a>
+    </div>
+    {% endfor %}
 {% endblock %}

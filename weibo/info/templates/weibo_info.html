@@ -1,29 +1,148 @@
 {% extends "base.html" %}
 
-{% block head %}
+{% block content %}
+<div class="alert" role="alert">
+    <h3 style="margin-top: 15px;" class="text-muted">{{ info.author.username }}发表的微博</h3>
+</div>
+<div class="alert alert-primary" role="alert">
+  <div class="alert" style="padding-top: 0;padding-bottom: 0;margin: 0;">
+    <div style="width: 530px;height: 40px;padding-top: 0;padding-bottom: 0;" class="align-self-center">
+      <h4 class="alert-heading" style="padding-top: 0;padding-bottom: 0;margin: 0;">
+        <a href="/user/user_info?w_uid={{ info.author.id }}" class="text-primary align-self-center" style="text-decoration: none;padding-top: 0;padding-bottom: 0;">
+          <img src="{{ info.author.filename }}" width="90px" height="90px" class="rounded-circle img-thumbnail">
+          {{ info.author.username }}
+        </a>
+      </h4>
+      <span style="float: right;">
+        {% if session['uid'] in info.colloct_users %}
+              <a class="alert-link text-secondary align-self-center" href="/weibo/collect?wb_id={{ info.id }}&path={{ request.path }}" style="text-decoration: none;">
+                  <span style="font-size: small;">取消收藏</span>&nbsp;
+                  <img src="/static/img/icons/star-fill.svg" width="20" style="margin-right: 20px;">
+              </a>
+          {% else %}
+              <a class="alert-link text-primary align-self-center" href="/weibo/collect?wb_id={{ info.id }}&path={{ request.path }}" style="text-decoration: none;">
+                  <span style="font-size: small;">收藏</span>&nbsp;
+                  <img src="/static/img/icons/star.svg" width="20" style="margin-right: 20px;">
+              </a>
+          {% endif %}
+          &emsp;
+          <a href="/weibo/thumb?wid={{ info.id }}&path={{ request.path }}" class="text-primary align-self-center" style="text-decoration: none;float: right;">
+              <span>{{ info.n_thumb }}</span>&nbsp;
+              <img src="/static/img/icons/hand-thumbs-up.svg" width="20">
+          </a>
+      </span>
+    </div>
+  </div>
+  <hr />
+  <p class="mb-0">
+    {{ info.content | replace('\n', '<br>') | safe }}
+  </p>
+  <hr />
 
-{% include "bar.html" %}
+<!--  <div class="row col-12">-->
+    {% if info.uid == session.get('uid') %}
+    <a class="text-info" href="/weibo/modify?wb_id={{ info.id }}">修改微博</a>
+    &nbsp;&nbsp;&nbsp;
+    <a class="text-danger" href="/weibo/delete?wb_id={{ info.id }}">删除微博</a>
+    &nbsp;&nbsp;&nbsp;
+    {% endif %}
+    <span class="text-secondary">{{ info.datetime }}</span>
+    <span style="float: right">
+      {% if session['uid'] in info.follow_users %}
+        <a href="/user/follow?wb_id={{ info.id }}&path={{ request.path }}" class="text-secondary" style="text-decoration: none;">
+          <span style="font-size: small;">取消关注</span>
+          <img src="/static/img/icons/heart-fill.svg" width="20" style="margin-right: 20px;">
+        </a>
+      {% else %}
+        <a href="/user/follow?wb_id={{ info.id }}&path={{ request.path }}" class="text-success" style="text-decoration: none;">
+          <span>添加关注</span>
+          <img src="/static/img/icons/heart.svg" width="20" style="margin-right: 20px;">
+        </a>
+      {% endif %}
+    </span>
+    <br />
+<!--  评论区-->
+    <div class="alert">
+      <form class="row justify-content-end" action="/weibo/comment" method="POST">
+        <textarea class="form-control col" name="content" rows="2" placeholder="请输入评论内容"></textarea>
+        <input type="hidden" name="wid" value="{{ info.id }}" />
+        &emsp;
+        <button type="submit" class="btn btn-primary">评论</button>
+      </form>
+    </div>
+</div>
+
+<!--  评论-->
+{% if cn_li %}
+  {% for comment_dic in cn_li %}
+  <div class="alert alert-primary" role="alert">
+    <span class="alert-heading">
+      <a href="/user/user_info?w_uid={{ comment_dic.comment.author.id }}" class="text-primary align-self-center" style="text-decoration: none;">
+        <img src="{{ comment_dic.comment.author.filename }}" width="60px" height="60px" class="rounded-circle img-thumbnail">
+        {{ comment_dic.comment.author.username }}
+      </a>
+      评论：
+    </span>
+    <span class="text-secondary">{{ comment_dic.comment.datetime }}</span>
+    <hr />
+    <p class="mb-0 text-dark">{{ comment_dic.comment.content | replace('\n', '<br>') | safe }}</p>
+    <div class="alert">
+      <form class="row justify-content-end" action="/weibo/reply" method="POST">
+        <textarea class="form-control col" name="content" placeholder="请输入回复内容"></textarea>
+        <input type="hidden" name="wid" value="{{ info.id }}" />
+        <input type="hidden" name="cid" value="{{ comment_dic.comment.id }}">
+        &emsp;
+        <button type="submit" class="btn btn-primary">回复</button>
+      </form>
+    </div>
+       <hr>
+<!--  回复-->
+    {% if comment_dic.replys %}
+      {% for reply in comment_dic.replys %}
+        <div class="after col-12 ">
+          <span class="alert-heading">
+          <a href="/user/user_info?w_uid={{ reply.author.id }}" class="text-primary align-self-center" style="text-decoration: none;">
+            <img src="{{ reply.author.filename }}" width="30px" height="30px" class="rounded-circle img-thumbnail">
+            {{ reply.author.username }}
+          </a>
+            回复：
+          </span>
+          <span class="text-secondary">{{ reply.datetime }}</span>
+        </div>
+        <div class="after col-12 ">
+          <p class="mb-0 text-black-50">{{ reply.content | replace('\n', '<br>') | safe }}</p>
+        </div>
+      {% endfor %}
+    {% endif %}
+    </div>
+  {% endfor %}
+{% endif %}
 
 {% endblock %}
 
-{% block content %}
-<h1>微博信息</h1>
-<pre><a href="/weibo/modify?wb_id={{ info.id }}" style="border: 1px solid gold;">修改微博</a></pre>
-<pre><a href="/weibo/delete?wb_id={{ info.id }}" style="border: 1px solid gold;">删除微博</a></pre>
-<hr />
-<table border="1px" rules="all">
-    <tr>
-        <td>标题：{{ info.title }}</td>
-    </tr>
-    <tr>
-        <td>
-            内容：
-            <p><textarea cols="80" rows="10">{{ info.content }}</textarea></p>
-        </td>
-    </tr>
-    <tr>
-        <td><span style="float: right">{{ info.datetime }}</span></td>
-    </tr>
-</table>
+
+{% block sidebar %}
+<h3 class="text-warning">热度排行榜</h3>
+{% for weibo in weibos %}
+    <div class="alert alert-primary" role="alert">
+    <!--    个人信息-->
+        <div class="alert">
+            <a href="/user/user_info?w_uid={{ weibo.id }}" class="text-primary align-self-center" style="text-decoration: none;">
+                <h4 class="alert-heading align-self-center">
+                    <img src="{{ weibo.author.filename }}" alt="无头像" height="50px" class="rounded-circle">
+                    {{ weibo.author.username }}
+                </h4>
+            </a>
+          <span class="text-warning" style="float: right;font-size: larger">{{ weibo.n_thumb }}&nbsp;<img src="/static/img/icons/hand-thumbs-up.svg" width="20"></span>
+        </div>
+        <div class="alert alert-info" role="alert">
+            <p class="mb-0">
+                {{ weibo.content | replace('\n', '<br>') | safe }}
+            </p>
+            <br>
+            <span style="float: right">{{ weibo.datetime }}</span>
+        </div>
+    </div>
+{% endfor%}
 
 {% endblock %}
